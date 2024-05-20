@@ -64,8 +64,103 @@ cosign sign --key "pkcs11:slot-id=0;object=Sample-Development-Environment?module
 
 ### Install Kyverno
 
+Kyverno is a policy engine designed for Kubernetes. It can validate, mutate, and generate configurations using admission controls and background scans. Kyverno policies are Kubernetes resources and do not require learning a new language. Kyverno is designed to work nicely with tools you already use like kubectl, kustomize, and Git.
+
+For this part of the lab we will now be focusing on how to validate and enforce policy around container image signatures in a Kubernetes cluster.  Let’s get started by installing the Kyverno admission controller:
+
+```bash
+kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml
+```
+
 ### Configure Kyverno Image Verification Policy
 
-### View Kyverno Logs
+We will now setup a Kyverno image verification policy that will leverage A Venafi CodeSign Protect code signing certificate. 
+
+#### Get Certificate:
+
+```bash
+pkcs11config getcertificate -label:Sample-Development-Environment -file:sample.crt
+```
+
+Let’s now create a sample image verification policy that will enforce signature verification against the alpine images you distributed in the earlier part of this lab.
+
+```bash
+vi venafi_csp_verify_policy.yaml
+```
+Paste in the following template and make sure to add in the certificate you obtained earlier:
+
+```bash
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: verify-signature
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences:
+        - "10.1.0.12:5000/alpine:*"
+        attestors:
+        - entries:
+          - certificates:
+              cert: |-
+                -----BEGIN CERTIFICATE-----
+                MIIDuzCCAqOgAwIBAgIUDG7gFB8RMMOMGkDm6uEusOE8FWgwDQYJKoZIhvcNAQEL
+                BQAwbDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQwwCgYDVQQHDANTSkMxEDAO
+                BgNVBAoMB05pcm1hdGExEDAOBgNVBAMMB25pcm1hdGExHjAcBgkqhkiG9w0BCQEW
+                D2ppbUBuaXJtYXRhLmNvbTAeFw0yMjA0MjgxOTU0NDFaFw0yNDA3MzExOTU0NDFa
+                MGwxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEMMAoGA1UEBwwDU0pDMRAwDgYD
+                VQQKDAdOaXJtYXRhMRAwDgYDVQQDDAduaXJtYXRhMR4wHAYJKoZIhvcNAQkBFg9q
+                aW1AbmlybWF0YS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDP
+                LObWc4VM4CULHrjScdjAXwdeJ6o1SwS9Voz9wTYAASp54EDqgzecWGjtn409NF9o
+                4tqd5LotEFscoMXGpmm7dBpv76MQhGym7JBhlYaBksmnKp17nTfAmsgiDiUnjnG6
+                BQ5/FIdZYHtpJmMZ/SZqQ3ehXLaGj2qogPrEsObN1S/1b+0guLC/gVi1fiuUgd4Z
+                SDEmDaLjSuIQBrtba08vQnl5Ihzrag3A85+JNNxk9WBDFnLHMsRvlrUMU4565FS9
+                X57epDZakKvLATAK0/gKI2ZvWfY0hoO3ngEk4Rkek6Qeh1vXFBc8Rsym8W0RXjux
+                JDkye5RTsYrlXxSavP/xAgMBAAGjVTBTMB8GA1UdIwQYMBaAFBF3uwHovsxj7WxS
+                vDDKBTwuR+oaMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgTwMBgGA1UdEQQRMA+CDWhl
+                bGxmaXNoLnRlc3QwDQYJKoZIhvcNAQELBQADggEBAHtn9KptJyHYs45oTsdmXrO0
+                Fv0k3jZnmqxHOX7OiFyAkpcYUTezMYKHGqLdme0p2VE/TdQmGPEq1dqlQbF7UMb/
+                o+SrvFpmAJ1iAVjLYQ7KDCE706NgnVkxaPfU8UBOw2vF5nsgIxcheOyxTplbVOVM
+                vcYYwAWXxkNhrQ4sYygXuNgZawruxY1HdUgGWlh9XY0J5OBrXyinh2YGBUGQJgQR
+                NEmM+GQjdquPqAgDsb3kvWgFDrcbBZJBc/CyZU8GH9uIuPDgfVhDTqFtiz9W/F5s
+                Hh8yD7VAIWgL9TkGWRwWdD6Qx/BAu7dMdpjAxdGpMLn3O4SDAZDnQneaHx6qr/I=
+                -----END CERTIFICATE-----
+```
+
+#### Apply Policy and deploy a signed image:
+
+```bash
+sudo kubectl apply -f venafi_csp_verify_policy.yaml
+```
+
+```bash
+sudo kubectl run signed --image=10.1.0.12:5000/alpine:signed
+```
+
+#### Deploy an unsigned/untrusted image:
+
+Now let’s take a look at a scenario where we attempt to run an unsigned version of the container image and see what happens.
+
+```bash
+sudo kubectl run unsigned --image=10.1.0.12:5000/alpine:unsigned
+```
+
+In this case we get a signature not found error since the version of alpine that we are attempting to run wasn’t signed.  If we signed with a different certificate/keypair then we might get a signature mismatch error.
+
+#### View Kyverno Logs
+
+While you are attempting to deploy signed or unsigned images with Kyverno policy management in action you may want to see the real-time logs, which you can obtain as follows:
+
+```bash
+sudo kubectl logs -n kyverno $(sudo kubectl get pod -n kyverno |  awk '/kyverno/{print $1}') -f
+```
 
 ### Troubleshooting
