@@ -12,7 +12,7 @@
 ```bash
 curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 ```
-Install cosign via [Installation](zhttps://docs.sigstore.dev/system_config/installation/) instructions.
+Install cosign via [Installation](https://docs.sigstore.dev/system_config/installation/) instructions.
 
 2. Generate an SBOM in this example based on the Linux Foundation Project SPDX format:
 ```bash
