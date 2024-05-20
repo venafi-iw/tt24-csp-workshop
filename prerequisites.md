@@ -9,6 +9,7 @@
    - Kind
    - etc.
 3. CodeSign Protect client
-4. Sigstore cosign client
-5. The Notary Project notation client
-6. Kyverno
+4. Docker
+5. Sigstore cosign client
+6. The Notary Project notation client
+7. Kyverno
