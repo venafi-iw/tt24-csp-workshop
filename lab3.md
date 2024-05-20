@@ -1,7 +1,7 @@
 # Lab 3 - SBOM Signing and Verification
 
 ### Pre-requisites
-* Sigstore cosign 1.3 or newer
+* Sigstore [cosign](https://github.com/sigstore/cosign) 1.3 or newer
 * CodeSign Protect client
 * Access to a container registry, e.g. Docker Hub
 * Tools for generating Software Bill of Materials, e.g. [anchore/syft](https://github.com/anchore/syft)
@@ -14,11 +14,11 @@ curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -
 ```
 Install cosign via [Installation](https://docs.sigstore.dev/system_config/installation/) instructions.
 
-2. Generate an SBOM in this example based on the Linux Foundation Project SPDX format:
+2. Generate an SBOM in this example based on the Linux Foundation Project [SPDX](https://spdx.dev/learn/overview/) format:
 ```bash
 syft docker-username/hello-container:latest -o spdx > hello-container-latest.spdx
 ```
-3. Install and Configure CodeSign Protect client per documentation
+3. Install and Configure CodeSign Protect client per online Venafi [documentation](https://docs.venafi.com)
 4. Attach and Sign SBOM with cosign
 ```sbom
 cosign attach sbom --sbom latest.spdx ${{ env.IMAGE }}
