@@ -31,6 +31,14 @@ https://vh.venafilab.com/csc/clients/venafi-csc-latest-x86_64.deb
 sudo dpkg -i "venafi-codesigningclients-24.1.1-linux-x86_64.deb"
 ```
 
+### Configure CodeSign Protect client
+
+Follow instructions per documentation with the goal of getting a valid grant for signing:
+
+```bash
+pkcs11config getgrant --authurl=https://tpp/vedauth --hsmurl=https://tpp/vedhsm --username=sample-cs-user --password=NewPassw0rd! --force
+```
+
 ### Setup Local Registry
 
 In this part of the lab we will now setup a local stateless Docker-based [registry](https://docs.docker.com/registry/) so that we can store as well as distribute signed and unsigned container images that we’ve obtained from Docker hub.
