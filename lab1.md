@@ -58,6 +58,12 @@ curl -X GET http://localhost:5000/v2/alpine/tags/list
 
 We are now going to sign the alpine container image using the [GitHub - sigstore/cosign: Code signing and transparency for containers and binaries CLI](https://github.com/sigstore/cosign).  Cosign provides container signing, verification and storage in an OCI registry.  We will download a specific version that has support for PKCS#11, which is how we integrate with the Venafi CodeSign Protect client.
 
+Verify that the OS has the required PKCS#11 libraries, such as on Ubuntu:
+
+```bash
+sudo apt install libpcsclite-dev
+```
+
 ```bash
 wget https://github.com/sigstore/cosign/releases/download/v2.2.4/cosign-linux-pivkey-pkcs11key-amd64
 sudo chmod +x cosign-linux-pivkey-pkcs11key-amd64
