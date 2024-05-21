@@ -73,7 +73,7 @@ sudo mv cosign-linux-pivkey-pkcs11key-amd64 /usr/bin/cosign
 Now sign with cosign:
 
 ```bash
-cosign sign --key "pkcs11:slot-id=0;object=Sample-Development-Environment?module-path=/opt/venafi/codesign/lib/venafipkcs11.so&pin-value=1234" localhost:5000/alpine:signed
+cosign sign --tlog-upload=false --key "pkcs11:slot-id=0;object=Sample-Development-Environment?module-path=/opt/venafi/codesign/lib/venafipkcs11.so&pin-value=1234" localhost:5000/alpine:signed
 ```
 
 ### Install Kyverno
