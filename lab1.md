@@ -101,7 +101,7 @@ Let’s now create a sample image verification policy that will enforce signatur
 ```bash
 vi venafi_csp_verify_policy.yaml
 ```
-Paste in the following template and make sure to add in the certificate you obtained earlier:
+Modify the following template based on **Registry IP** and make sure to add in the **certificate** you obtained earlier:
 
 ```bash
 ---
@@ -163,7 +163,7 @@ sudo kubectl apply -f venafi_csp_verify_policy.yaml
 ```
 
 ```bash
-sudo kubectl run signed --image=10.1.0.12:5000/alpine:signed
+sudo kubectl run signed --image=10.42.0.1:5000/alpine:signed
 ```
 
 #### Deploy an unsigned/untrusted image:
@@ -171,7 +171,7 @@ sudo kubectl run signed --image=10.1.0.12:5000/alpine:signed
 Now let’s take a look at a scenario where we attempt to run an unsigned version of the container image and see what happens.
 
 ```bash
-sudo kubectl run unsigned --image=10.1.0.12:5000/alpine:unsigned
+sudo kubectl run unsigned --image=10.42.0.1:5000/alpine:unsigned
 ```
 
 In this case we get a signature not found error since the version of alpine that we are attempting to run wasn’t signed.  If we signed with a different certificate/keypair then we might get a signature mismatch error.
@@ -185,3 +185,5 @@ sudo kubectl logs -n kyverno $(sudo kubectl get pod -n kyverno |  awk '/kyverno/
 ```
 
 ### Troubleshooting
+
+* View kyverno per above as well as TPP logs in case of any signing issues
