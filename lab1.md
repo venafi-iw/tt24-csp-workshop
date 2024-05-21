@@ -83,7 +83,7 @@ Kyverno is a policy engine designed for Kubernetes. It can validate, mutate, and
 For this part of the lab we will now be focusing on how to validate and enforce policy around container image signatures in a Kubernetes cluster.  Let’s get started by installing the Kyverno admission controller:
 
 ```bash
-kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml
+sudo kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml
 ```
 
 ### Configure Kyverno Image Verification Policy
