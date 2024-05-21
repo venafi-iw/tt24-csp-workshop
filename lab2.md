@@ -134,86 +134,98 @@ Complete instructions can be found [here](https://github.com/nirmata/kyverno-not
 
 ```bash
 sudo kubectl create -f https://raw.githubusercontent.com/nirmata/kyverno-notation-venafi/main/configs/install.yaml
-``` 
-
-### Configure Kyverno Image Verification Policy
-
-We will now setup a Kyverno image verification policy that will leverage A Venafi CodeSign Protect code signing certificate. 
-
-#### Get Certificate:
-
-```bash
-pkcs11config getcertificate -label:Sample-Development-Environment -file:sample.crt
 ```
 
-Let’s now create a sample image verification policy that will enforce signature verification against the alpine images you distributed in the earlier part of this lab.
-
+CRDs
 ```bash
-vi venafi_csp_verify_policy.yaml
+sudo kubectl create -f https://raw.githubusercontent.com/nirmata/kyverno-notation-venafi/main/configs/crds/notation.nirmata.io_trustpolicies.yaml
+sudo kubectl create -f https://raw.githubusercontent.com/nirmata/kyverno-notation-venafi/main/configs/crds/notation.nirmata.io_truststores.yaml
 ```
-Modify the following template based on **Registry IP** and make sure to add in the **certificate** you obtained earlier:
 
-```bash
----
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+#### Create TrustStore policy
+
+```yaml
+apiVersion: notation.nirmata.io/v1alpha1
+kind: TrustStore
 metadata:
-  name: check-image
+  name: venafi-signer-ts
 spec:
-  validationFailureAction: Enforce
-  rules:
-    - name: verify-signature
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      verifyImages:
-      - imageReferences:
-        - "10.42.0.1:5000/alpine:*"
-        attestors:
-        - entries:
-          - certificates:
-              cert: |-
-                -----BEGIN CERTIFICATE-----
-                MIID7zCCAtegAwIBAgIQNOVKnFAQ5UeIsb+Gp9XjvDANBgkqhkiG9w0BAQsFADCB
-                iTELMAkGA1UEBhMCVVMxDTALBgNVBAgTBFV0YWgxFzAVBgNVBAcTDlNhbHQgTGFr
-                ZSBDaXR5MSgwJgYDVQQKEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExD
-                MSgwJgYDVQQDEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExDMB4XDTI0
-                MDUyMTE2MjU0OFoXDTI1MDUyMTE2MjU0OFowgYkxCzAJBgNVBAYTAlVTMQ0wCwYD
-                VQQIEwRVdGFoMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEoMCYGA1UEChMfU2Ft
-                cGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEoMCYGA1UEAxMfU2FtcGxlIENv
-                ZGUgU2lnbmVycyBBcmUgVXMsIExMQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-                AQoCggEBAL7Swjz/n2Ag9eCT71TdjjSNmgO9LRpsNtqEZAgyy44V+FXheYxshA92
-                urgcrEeOEtNQ83NN0xFflwd/lTJJXLuwSb7oL6HZTuu03dqd+c2c4Eexr5U0KbXB
-                E7FjrhGkds2JM/VgFybGZT3VIaX5kNRpRc/xZGOMbuKlb8AsjB2EPzuT7scbXpPO
-                nC5zxycNXa10tK5Sr0sI1VTdzFpph8OBDIhIExEGI59t0JcaheOE0vpf6D1l6OVe
-                vZF7HsKTQJ6BEAEtViFhEYc2v/l8Iw5+liw4NZdfcHTrJkDOE1XQnErHUFdbHm6t
-                Bpt0huK4yhD+NZqa2KSYAML+U7WSbMkCAwEAAaNRME8wHQYDVR0OBBYEFFp4894m
-                DK4gK44LDrnlfJ8GWqjtMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgaAMBMGA1Ud
-                JQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQBL9K2hzUYayPzvPlQC
-                mw01kVfi8zR7HdjFTfxOQ6mgLrFDuYQG9vvdCyhHzz8SLfaaq2VoZ/ZpDeIb+B15
-                H7WWTYDvrFJRHOQ9BUcZzeZGizanpR9XIQWCpXm9XvFmQ/AqxGEuptg5ialtdBPd
-                hrDwfiOQEH9cfJiRsM5g9DiFjqHgoeUw6WD+bX3nGG9VeHHXhQ43upmDWFNvdskt
-                pNQY7vB4yRsvkfzwdPmn5bQ+OfEhYqy8c4wKUtcmzsGpw3WAEOyGIT5Wm3tAo28s
-                2vMjZph4Dr42DuljeYmJv38CKbnSHVtCSbZJ5rxbsq/QYE2bOeegqF3t8cXffOcE
-                2Bsc
-                -----END CERTIFICATE-----
-              rekor:
-                ignoreTlog: true
-                url: https://rekor.sigstore.dev
-              ctlog:
-                ignoreSCT: true
-```
-
-#### Apply Policy and deploy a signed image:
-
-```bash
-sudo kubectl apply -f venafi_csp_verify_policy.yaml
+  trustStoreName: venafidemo.com
+  type: ca
+  caBundle: |-
+    -----BEGIN CERTIFICATE-----
+    MIID7zCCAtegAwIBAgIQNOVKnFAQ5UeIsb+Gp9XjvDANBgkqhkiG9w0BAQsFADCB
+    iTELMAkGA1UEBhMCVVMxDTALBgNVBAgTBFV0YWgxFzAVBgNVBAcTDlNhbHQgTGFr
+    ZSBDaXR5MSgwJgYDVQQKEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExD
+    MSgwJgYDVQQDEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExDMB4XDTI0
+    MDUyMTE2MjU0OFoXDTI1MDUyMTE2MjU0OFowgYkxCzAJBgNVBAYTAlVTMQ0wCwYD
+    VQQIEwRVdGFoMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEoMCYGA1UEChMfU2Ft
+    cGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEoMCYGA1UEAxMfU2FtcGxlIENv
+    ZGUgU2lnbmVycyBBcmUgVXMsIExMQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+    AQoCggEBAL7Swjz/n2Ag9eCT71TdjjSNmgO9LRpsNtqEZAgyy44V+FXheYxshA92
+    urgcrEeOEtNQ83NN0xFflwd/lTJJXLuwSb7oL6HZTuu03dqd+c2c4Eexr5U0KbXB
+    E7FjrhGkds2JM/VgFybGZT3VIaX5kNRpRc/xZGOMbuKlb8AsjB2EPzuT7scbXpPO
+    nC5zxycNXa10tK5Sr0sI1VTdzFpph8OBDIhIExEGI59t0JcaheOE0vpf6D1l6OVe
+    vZF7HsKTQJ6BEAEtViFhEYc2v/l8Iw5+liw4NZdfcHTrJkDOE1XQnErHUFdbHm6t
+    Bpt0huK4yhD+NZqa2KSYAML+U7WSbMkCAwEAAaNRME8wHQYDVR0OBBYEFFp4894m
+    DK4gK44LDrnlfJ8GWqjtMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgaAMBMGA1Ud
+    JQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQBL9K2hzUYayPzvPlQC
+    mw01kVfi8zR7HdjFTfxOQ6mgLrFDuYQG9vvdCyhHzz8SLfaaq2VoZ/ZpDeIb+B15
+    H7WWTYDvrFJRHOQ9BUcZzeZGizanpR9XIQWCpXm9XvFmQ/AqxGEuptg5ialtdBPd
+    hrDwfiOQEH9cfJiRsM5g9DiFjqHgoeUw6WD+bX3nGG9VeHHXhQ43upmDWFNvdskt
+    pNQY7vB4yRsvkfzwdPmn5bQ+OfEhYqy8c4wKUtcmzsGpw3WAEOyGIT5Wm3tAo28s
+    2vMjZph4Dr42DuljeYmJv38CKbnSHVtCSbZJ5rxbsq/QYE2bOeegqF3t8cXffOcE
+    2Bsc
+    -----END CERTIFICATE-----
 ```
 
 ```bash
-sudo kubectl run signed --image=10.42.0.1:5000/alpine:signed
+kubectl apply -f truststore.yaml
+```
+
+#### Create Trust Policy
+
+```yaml
+apiVersion: notation.nirmata.io/v1alpha1
+kind: TrustPolicy
+metadata:
+  name: venafi-trustpolicy-sample
+spec:
+  version: '1.0'
+  trustPolicyName: tp-venafi-test-notation
+  trustPolicies:
+  - name: venafi-signer-tp
+    registryScopes:
+    - "*"
+    signatureVerification:
+      level: strict
+      override: {}
+    trustStores:
+    - ca:venafidemo.com
+    trustedIdentities:
+    - "*"
+```
+
+```bash
+kubectl apply -f trustpolicy.yaml
+```
+
+#### Apply Policy to Cluster
+
+```bash
+sudo kubectl create -f https://raw.githubusercontent.com/nirmata/kyverno-notation-venafi/main/configs/samples/kyverno-policy.yaml
+```
+
+#### Deploy a signed image:
+
+Create the test namespace which the policy applies to:
+
+```bash
+kubectl create ns test-venafi
+```
+
+```bash
+sudo kubectl -n test-venafi run signed --image=10.42.0.1:5000/alpine:signed
 ```
 
 #### Deploy an unsigned/untrusted image:
@@ -221,7 +233,7 @@ sudo kubectl run signed --image=10.42.0.1:5000/alpine:signed
 Now let’s take a look at a scenario where we attempt to run an unsigned version of the container image and see what happens.
 
 ```bash
-sudo kubectl run unsigned --image=10.42.0.1:5000/alpine:unsigned
+sudo kubectl -n test-venafi run unsigned --image=10.42.0.1:5000/alpine:unsigned
 ```
 
 In this case we get a signature not found error since the version of alpine that we are attempting to run wasn’t signed.  If we signed with a different certificate/keypair then we might get a signature mismatch error.
