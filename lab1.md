@@ -120,35 +120,40 @@ spec:
               - Pod
       verifyImages:
       - imageReferences:
-        - "10.1.0.12:5000/alpine:*"
+        - "10.42.0.1:5000/alpine:*"
         attestors:
         - entries:
           - certificates:
               cert: |-
                 -----BEGIN CERTIFICATE-----
-                MIID7zCCAtegAwIBAgIQJiDtMMprk0WEemqD+nVIyDANBgkqhkiG9w0BAQsFADCB
-                iTEoMCYGA1UEAxMfU2FtcGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEoMCYG
-                A1UEChMfU2FtcGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEXMBUGA1UEBxMO
-                U2FsdCBMYWtlIENpdHkxDTALBgNVBAgTBFV0YWgxCzAJBgNVBAYTAlVTMB4XDTIx
-                MDgxMzIyMjcxMVoXDTIyMDgxMzIyMjcxMVowgYkxKDAmBgNVBAMTH1NhbXBsZSBD
-                b2RlIFNpZ25lcnMgQXJlIFVzLCBMTEMxKDAmBgNVBAoTH1NhbXBsZSBDb2RlIFNp
-                Z25lcnMgQXJlIFVzLCBMTEMxFzAVBgNVBAcTDlNhbHQgTGFrZSBDaXR5MQ0wCwYD
-                VQQIEwRVdGFoMQswCQYDVQQGEwJVUzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-                AQoCggEBAL6+TRF45CqonE9JN63yvGNs2FGQ9Rtqsg6uUe4k/KWzAYAYXCz1rnmU
-                eA/6tfPnq9hmsn9mMDT9bE8ZQydNYUMU12tqq3ygO52M9Aza+uG/fN5rGIAgCsbA
-                sBceWm18ZwbhchIwGh7++Le7PWPM7PSCNKpugXHNF/F51eZsUSu7KqT+jLZiQKZd
-                e769wMO1GnPhsQz8w9K/M7IrNal+g9A62ake5cnJ3w5ytWiXJlLcwQyGWf3x1nV2
-                JsxUno31o2lC0oFqD3BWctqC3b1FVkltPSSiW6AqO3yfqDjmZFEPXwYtDn1aCfbi
-                Pl3p4QXdQByNRySjcF0ipiUou7TLaq0CAwEAAaNRME8wHQYDVR0OBBYEFDCpx2mc
-                2TQwc7aUq5f53LOZuZsxMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgaAMBMGA1Ud
-                JQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQB+tqv7vuQOdbBnYddw
-                wAIb6xcUf+IVWMvC9+GFClV865dAnlgMeiap57lBu+O3q0gcRXIsFycrpZu/7ARm
-                b0zZE8PL8xWV/R2YzkPs+se82a0bqpaUEeXFd2JelVXh23CAX+1W7wAn9YAnKEzE
-                cN3ODtYLr9GfpXiFfGwjlnhlNhxp/3is/wAjDRtx7EAzOOAo4kTUCzP2kC6A4QGf
-                ZsgpX8Z/NFTZGPfwBUAgmgGEuW7JlPANCdIt2dYULo7NMt3NyXnHY5ZfH8yeO+MU
-                tsiN+dDL/MDkqMbwbErEgpRiS2ZAPibEdJx7jow27WtxzFbx9IIK6T9mh+A/xqjb
-                QAPE
-                -----END CERTIFICATE----
+                MIID7zCCAtegAwIBAgIQNOVKnFAQ5UeIsb+Gp9XjvDANBgkqhkiG9w0BAQsFADCB
+                iTELMAkGA1UEBhMCVVMxDTALBgNVBAgTBFV0YWgxFzAVBgNVBAcTDlNhbHQgTGFr
+                ZSBDaXR5MSgwJgYDVQQKEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExD
+                MSgwJgYDVQQDEx9TYW1wbGUgQ29kZSBTaWduZXJzIEFyZSBVcywgTExDMB4XDTI0
+                MDUyMTE2MjU0OFoXDTI1MDUyMTE2MjU0OFowgYkxCzAJBgNVBAYTAlVTMQ0wCwYD
+                VQQIEwRVdGFoMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEoMCYGA1UEChMfU2Ft
+                cGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEoMCYGA1UEAxMfU2FtcGxlIENv
+                ZGUgU2lnbmVycyBBcmUgVXMsIExMQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+                AQoCggEBAL7Swjz/n2Ag9eCT71TdjjSNmgO9LRpsNtqEZAgyy44V+FXheYxshA92
+                urgcrEeOEtNQ83NN0xFflwd/lTJJXLuwSb7oL6HZTuu03dqd+c2c4Eexr5U0KbXB
+                E7FjrhGkds2JM/VgFybGZT3VIaX5kNRpRc/xZGOMbuKlb8AsjB2EPzuT7scbXpPO
+                nC5zxycNXa10tK5Sr0sI1VTdzFpph8OBDIhIExEGI59t0JcaheOE0vpf6D1l6OVe
+                vZF7HsKTQJ6BEAEtViFhEYc2v/l8Iw5+liw4NZdfcHTrJkDOE1XQnErHUFdbHm6t
+                Bpt0huK4yhD+NZqa2KSYAML+U7WSbMkCAwEAAaNRME8wHQYDVR0OBBYEFFp4894m
+                DK4gK44LDrnlfJ8GWqjtMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgaAMBMGA1Ud
+                JQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQBL9K2hzUYayPzvPlQC
+                mw01kVfi8zR7HdjFTfxOQ6mgLrFDuYQG9vvdCyhHzz8SLfaaq2VoZ/ZpDeIb+B15
+                H7WWTYDvrFJRHOQ9BUcZzeZGizanpR9XIQWCpXm9XvFmQ/AqxGEuptg5ialtdBPd
+                hrDwfiOQEH9cfJiRsM5g9DiFjqHgoeUw6WD+bX3nGG9VeHHXhQ43upmDWFNvdskt
+                pNQY7vB4yRsvkfzwdPmn5bQ+OfEhYqy8c4wKUtcmzsGpw3WAEOyGIT5Wm3tAo28s
+                2vMjZph4Dr42DuljeYmJv38CKbnSHVtCSbZJ5rxbsq/QYE2bOeegqF3t8cXffOcE
+                2Bsc
+                -----END CERTIFICATE-----
+              rekor:
+                ignoreTlog: true
+                url: https://rekor.sigstore.dev
+              ctlog:
+                ignoreSCT: true
 ```
 
 #### Apply Policy and deploy a signed image:
