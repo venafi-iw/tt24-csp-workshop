@@ -126,27 +126,29 @@ spec:
           - certificates:
               cert: |-
                 -----BEGIN CERTIFICATE-----
-                MIIDuzCCAqOgAwIBAgIUDG7gFB8RMMOMGkDm6uEusOE8FWgwDQYJKoZIhvcNAQEL
-                BQAwbDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQwwCgYDVQQHDANTSkMxEDAO
-                BgNVBAoMB05pcm1hdGExEDAOBgNVBAMMB25pcm1hdGExHjAcBgkqhkiG9w0BCQEW
-                D2ppbUBuaXJtYXRhLmNvbTAeFw0yMjA0MjgxOTU0NDFaFw0yNDA3MzExOTU0NDFa
-                MGwxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEMMAoGA1UEBwwDU0pDMRAwDgYD
-                VQQKDAdOaXJtYXRhMRAwDgYDVQQDDAduaXJtYXRhMR4wHAYJKoZIhvcNAQkBFg9q
-                aW1AbmlybWF0YS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDP
-                LObWc4VM4CULHrjScdjAXwdeJ6o1SwS9Voz9wTYAASp54EDqgzecWGjtn409NF9o
-                4tqd5LotEFscoMXGpmm7dBpv76MQhGym7JBhlYaBksmnKp17nTfAmsgiDiUnjnG6
-                BQ5/FIdZYHtpJmMZ/SZqQ3ehXLaGj2qogPrEsObN1S/1b+0guLC/gVi1fiuUgd4Z
-                SDEmDaLjSuIQBrtba08vQnl5Ihzrag3A85+JNNxk9WBDFnLHMsRvlrUMU4565FS9
-                X57epDZakKvLATAK0/gKI2ZvWfY0hoO3ngEk4Rkek6Qeh1vXFBc8Rsym8W0RXjux
-                JDkye5RTsYrlXxSavP/xAgMBAAGjVTBTMB8GA1UdIwQYMBaAFBF3uwHovsxj7WxS
-                vDDKBTwuR+oaMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgTwMBgGA1UdEQQRMA+CDWhl
-                bGxmaXNoLnRlc3QwDQYJKoZIhvcNAQELBQADggEBAHtn9KptJyHYs45oTsdmXrO0
-                Fv0k3jZnmqxHOX7OiFyAkpcYUTezMYKHGqLdme0p2VE/TdQmGPEq1dqlQbF7UMb/
-                o+SrvFpmAJ1iAVjLYQ7KDCE706NgnVkxaPfU8UBOw2vF5nsgIxcheOyxTplbVOVM
-                vcYYwAWXxkNhrQ4sYygXuNgZawruxY1HdUgGWlh9XY0J5OBrXyinh2YGBUGQJgQR
-                NEmM+GQjdquPqAgDsb3kvWgFDrcbBZJBc/CyZU8GH9uIuPDgfVhDTqFtiz9W/F5s
-                Hh8yD7VAIWgL9TkGWRwWdD6Qx/BAu7dMdpjAxdGpMLn3O4SDAZDnQneaHx6qr/I=
-                -----END CERTIFICATE-----
+                MIID7zCCAtegAwIBAgIQJiDtMMprk0WEemqD+nVIyDANBgkqhkiG9w0BAQsFADCB
+                iTEoMCYGA1UEAxMfU2FtcGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEoMCYG
+                A1UEChMfU2FtcGxlIENvZGUgU2lnbmVycyBBcmUgVXMsIExMQzEXMBUGA1UEBxMO
+                U2FsdCBMYWtlIENpdHkxDTALBgNVBAgTBFV0YWgxCzAJBgNVBAYTAlVTMB4XDTIx
+                MDgxMzIyMjcxMVoXDTIyMDgxMzIyMjcxMVowgYkxKDAmBgNVBAMTH1NhbXBsZSBD
+                b2RlIFNpZ25lcnMgQXJlIFVzLCBMTEMxKDAmBgNVBAoTH1NhbXBsZSBDb2RlIFNp
+                Z25lcnMgQXJlIFVzLCBMTEMxFzAVBgNVBAcTDlNhbHQgTGFrZSBDaXR5MQ0wCwYD
+                VQQIEwRVdGFoMQswCQYDVQQGEwJVUzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+                AQoCggEBAL6+TRF45CqonE9JN63yvGNs2FGQ9Rtqsg6uUe4k/KWzAYAYXCz1rnmU
+                eA/6tfPnq9hmsn9mMDT9bE8ZQydNYUMU12tqq3ygO52M9Aza+uG/fN5rGIAgCsbA
+                sBceWm18ZwbhchIwGh7++Le7PWPM7PSCNKpugXHNF/F51eZsUSu7KqT+jLZiQKZd
+                e769wMO1GnPhsQz8w9K/M7IrNal+g9A62ake5cnJ3w5ytWiXJlLcwQyGWf3x1nV2
+                JsxUno31o2lC0oFqD3BWctqC3b1FVkltPSSiW6AqO3yfqDjmZFEPXwYtDn1aCfbi
+                Pl3p4QXdQByNRySjcF0ipiUou7TLaq0CAwEAAaNRME8wHQYDVR0OBBYEFDCpx2mc
+                2TQwc7aUq5f53LOZuZsxMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgaAMBMGA1Ud
+                JQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQB+tqv7vuQOdbBnYddw
+                wAIb6xcUf+IVWMvC9+GFClV865dAnlgMeiap57lBu+O3q0gcRXIsFycrpZu/7ARm
+                b0zZE8PL8xWV/R2YzkPs+se82a0bqpaUEeXFd2JelVXh23CAX+1W7wAn9YAnKEzE
+                cN3ODtYLr9GfpXiFfGwjlnhlNhxp/3is/wAjDRtx7EAzOOAo4kTUCzP2kC6A4QGf
+                ZsgpX8Z/NFTZGPfwBUAgmgGEuW7JlPANCdIt2dYULo7NMt3NyXnHY5ZfH8yeO+MU
+                tsiN+dDL/MDkqMbwbErEgpRiS2ZAPibEdJx7jow27WtxzFbx9IIK6T9mh+A/xqjb
+                QAPE
+                -----END CERTIFICATE----
 ```
 
 #### Apply Policy and deploy a signed image:
