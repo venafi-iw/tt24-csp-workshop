@@ -93,17 +93,15 @@ notation key add --default "sample-development-environment" --plugin venafi-csp 
 
 ### Setup Local Registry
 
-In this part of the lab we will now setup a local stateless Docker-based [registry](https://docs.docker.com/registry/) so that we can store as well as distribute signed and unsigned container images that we’ve obtained from Docker hub.
+In this part of the lab we will now distribute a sample image via [ttl.sh](https://ttl.sh), an anonymous and ephemeral Docker image registry.
 
 ```bash
-sudo docker run -d -p 5000:5000 --restart always --name registry registry:2
 sudo docker pull alpine:latest
 sudo docker pull alpine:3.14.3
-sudo docker image tag alpine:latest localhost:5000/alpine:signed
-sudo docker image tag alpine:3.14.3 localhost:5000/alpine:unsigned
-sudo docker image push localhost:5000/alpine:signed
-sudo docker image push localhost:5000/alpine:unsigned
-curl -X GET http://localhost:5000/v2/alpine/tags/list
+sudo docker image tag alpine:latest ttl.sh/tt24-signed-image:1h
+sudo docker image tag alpine:3.14.3 ttl.sh/tt24-unsigned-image:1h
+sudo docker image push ttl.sh/tt24-signed-image:1h
+sudo docker image push ttl.sh/tt24-unsigned-image:1h
 ```
 
 ### Sign with notation
@@ -113,7 +111,13 @@ We are now going to sign the alpine container image using the notation CLI.  Not
 Now sign with notation:
 
 ```bash
-notation sign --key "sample-development-environment" localhost:5000/alpine:signed
+notation sign --key "sample-development-environment" ttl.ssh/tt24-signed-image:1h
+```
+
+Inspect the notation signature:
+
+```bash
+notation inspect ttl.sh/tt24-signed-image:1h
 ```
 
 ### Install Kyverno
@@ -225,7 +229,7 @@ kubectl create ns test-venafi
 ```
 
 ```bash
-sudo kubectl -n test-venafi run signed --image=10.42.0.1:5000/alpine:signed
+sudo kubectl -n test-venafi run signed --image=ttl.sh/tt24-signed-image:1h
 ```
 
 #### Deploy an unsigned/untrusted image:
@@ -233,7 +237,7 @@ sudo kubectl -n test-venafi run signed --image=10.42.0.1:5000/alpine:signed
 Now let’s take a look at a scenario where we attempt to run an unsigned version of the container image and see what happens.
 
 ```bash
-sudo kubectl -n test-venafi run unsigned --image=10.42.0.1:5000/alpine:unsigned
+sudo kubectl -n test-venafi run unsigned --image=ttl.sh/tt24-unsigned-image:1h
 ```
 
 In this case we get a signature not found error since the version of alpine that we are attempting to run wasn’t signed.  If we signed with a different certificate/keypair then we might get a signature mismatch error.
