@@ -111,7 +111,7 @@ We are now going to sign the alpine container image using the notation CLI.  Not
 Now sign with notation:
 
 ```bash
-notation sign --key "sample-development-environment" ttl.ssh/tt24-signed-image:1h
+notation sign --key "sample-development-environment" ttl.sh/tt24-signed-image:1h
 ```
 
 Inspect the notation signature:
